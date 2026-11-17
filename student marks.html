@@ -1,0 +1,799 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduTrack | Student Marks Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f5f1ff, #eee9fa, #faf8ff);
+    color: #30234b;
+    min-height: 100vh;
+    padding: 30px 16px;
+}
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    background: #7656c9;
+    color: white;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    font-size: 24px;
+}
+
+.brand h2 {
+    font-size: 23px;
+}
+
+.brand p {
+    color: #9288a5;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.admin {
+    background: #e6f7ef;
+    color: #18865c;
+    padding: 9px 15px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    font-size: 29px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #8a809b;
+    font-size: 14px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 5px 25px #5a43800c;
+    transition: .3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card .icon {
+    font-size: 23px;
+}
+
+.stat-card h2 {
+    font-size: 28px;
+    margin: 12px 0 5px;
+}
+
+.stat-card p {
+    font-size: 13px;
+    color: #9389a2;
+}
+
+.panel {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px #5a43800c;
+    margin-bottom: 25px;
+}
+
+.panel-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    gap: 10px;
+}
+
+.panel-title h2 {
+    font-size: 19px;
+}
+
+.tag {
+    color: #7656c9;
+    background: #f0ebfc;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 17px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.field input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #e8e2f1;
+    border-radius: 10px;
+    background: #faf9fd;
+    outline: none;
+    font-size: 13px;
+    font-family: inherit;
+    transition: .3s;
+}
+
+.field input:focus {
+    border-color: #8969d5;
+    box-shadow: 0 0 0 3px #8969d51c;
+    background: white;
+}
+
+.subject-heading {
+    margin: 25px 0 15px;
+    font-size: 15px;
+}
+
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: .3s;
+}
+
+.add-btn {
+    background: #7656c9;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 11px;
+    font-weight: 700;
+    margin-top: 24px;
+    width: 100%;
+}
+
+.add-btn:hover {
+    background: #6242b3;
+    transform: translateY(-2px);
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.search {
+    flex: 1;
+    min-width: 180px;
+}
+
+.search input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #e8e2f1;
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+    background: #faf9fd;
+}
+
+.toolbar select {
+    padding: 12px;
+    border: 1px solid #e8e2f1;
+    border-radius: 10px;
+    background: #faf9fd;
+    font-family: inherit;
+}
+
+.download-btn {
+    background: #eee8fb;
+    color: #7656c9;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.download-btn:hover {
+    background: #e2d8f7;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th {
+    background: #f7f4fc;
+    color: #766b8a;
+    font-size: 12px;
+    text-align: left;
+    padding: 15px 12px;
+}
+
+td {
+    padding: 16px 12px;
+    border-bottom: 1px solid #f0edf5;
+    font-size: 13px;
+}
+
+tbody tr:hover {
+    background: #fcfaff;
+}
+
+.status {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.pass {
+    background: #e5f8ef;
+    color: #18865c;
+}
+
+.fail {
+    background: #fff0f1;
+    color: #d44b5a;
+}
+
+.remove-btn {
+    background: #fff0f1;
+    color: #d44b5a;
+    padding: 8px 11px;
+    border-radius: 8px;
+}
+
+.remove-btn:hover {
+    background: #ffdcdf;
+}
+
+.empty {
+    text-align: center;
+    padding: 35px;
+    color: #9b91a8;
+    font-size: 13px;
+}
+
+.notice {
+    font-size: 12px;
+    color: #91869e;
+    margin-top: 15px;
+}
+
+@media(max-width: 700px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .subject-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .welcome h1 {
+        font-size: 23px;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+}
+
+@media(max-width: 420px) {
+    .subject-grid,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .brand h2 {
+        font-size: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header class="header">
+        <div class="brand">
+            <div class="logo">🎓</div>
+            <div>
+                <h2>EduTrack</h2>
+                <p>Student Academic Management</p>
+            </div>
+        </div>
+        <div class="admin">ADMIN DASHBOARD</div>
+    </header>
+
+    <section class="welcome">
+        <h1>Student Performance</h1>
+        <p>Manage student details, marks and academic results.</p>
+    </section>
+
+    <section class="stats">
+        <div class="stat-card">
+            <div class="icon">👥</div>
+            <h2 id="totalStudents">0</h2>
+            <p>Total Students</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">✅</div>
+            <h2 id="passedStudents">0</h2>
+            <p>Passed Students</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">📊</div>
+            <h2 id="passPercentage">0%</h2>
+            <p>Pass Percentage</p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-title">
+            <h2>Add Student Details</h2>
+            <span class="tag">NEW ENTRY</span>
+        </div>
+
+        <form id="studentForm">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Student Name</label>
+                    <input type="text" id="studentName"
+                    placeholder="Enter full name" required>
+                </div>
+
+                <div class="field">
+                    <label>Roll Number</label>
+                    <input type="text" id="rollNumber"
+                    placeholder="10 characters" maxlength="10" required>
+                </div>
+
+            </div>
+
+            <h3 class="subject-heading">📚 Subject Marks</h3>
+
+            <div class="subject-grid" id="subjectFields"></div>
+
+            <button type="submit" class="add-btn">
+                + Add Student
+            </button>
+
+        </form>
+
+        <p class="notice">
+            Enter whole-number marks between 0 and 100 for every subject.
+        </p>
+    </section>
+
+    <section class="panel">
+
+        <div class="panel-title">
+            <h2>Student Results</h2>
+            <span class="tag">ALL RESULTS</span>
+        </div>
+
+        <div class="toolbar">
+
+            <div class="search">
+                <input type="text" id="searchInput"
+                placeholder="🔍 Search student or roll number...">
+            </div>
+
+            <select id="filterStatus">
+                <option value="ALL">All Results</option>
+                <option value="PASSED">Passed</option>
+                <option value="FAILED">Failed</option>
+            </select>
+
+            <button class="download-btn" onclick="downloadCSV()">
+                ↓ Export CSV
+            </button>
+
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STUDENT NAME</th>
+                        <th>ROLL NUMBER</th>
+                        <th>TOTAL / 600</th>
+                        <th>PERCENTAGE</th>
+                        <th>RESULT</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody id="resultsBody">
+                    <tr>
+                        <td colspan="6" class="empty">
+                            No student records added yet.
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+const subjects = [
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Programming in C",
+    "Python Programming",
+    "Data Structures"
+];
+
+const subjectFields = document.getElementById("subjectFields");
+const studentForm = document.getElementById("studentForm");
+const resultsBody = document.getElementById("resultsBody");
+
+let students = [];
+
+subjects.forEach((subject, index) => {
+
+    const div = document.createElement("div");
+    div.className = "field";
+
+    const label = document.createElement("label");
+    label.textContent = subject;
+
+    const input = document.createElement("input");
+    input.type = "number";
+    input.id = "subject" + index;
+    input.placeholder = "Enter marks (0–100)";
+    input.min = "0";
+    input.max = "100";
+    input.step = "1";
+    input.required = true;
+
+    div.append(label, input);
+    subjectFields.appendChild(div);
+
+});
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+studentForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("studentName").value.trim();
+    const roll = document.getElementById("rollNumber").value.trim();
+
+    // Name validation
+    const namePattern = /^[A-Za-z]+(?:\s+[A-Za-z]+)*$/;
+
+    if (!namePattern.test(name) || name.replace(/\s/g, "").length < 3) {
+        alert("Enter a valid student name using at least 3 letters.");
+        return;
+    }
+
+    if (/(.)\1{3,}/i.test(name.replace(/\s/g, ""))) {
+        alert("Student name contains an invalid repeated character pattern.");
+        return;
+    }
+
+    // Roll number validation
+    if (!/^[A-Za-z0-9]{10}$/.test(roll)) {
+        alert("Roll number must contain exactly 10 letters or numbers.");
+        return;
+    }
+
+    // Duplicate roll number validation
+    if (students.some(student => student.roll.toLowerCase() === roll.toLowerCase())) {
+        alert("This roll number already exists!");
+        return;
+    }
+
+    let marks = [];
+
+    for (let i = 0; i < subjects.length; i++) {
+
+        const value = document.getElementById("subject" + i).value;
+
+        if (value === "") {
+            alert("Please enter marks for all six subjects.");
+            return;
+        }
+
+        const mark = Number(value);
+
+        if (!Number.isInteger(mark) || mark < 0 || mark > 100) {
+            alert("Marks must be whole numbers between 0 and 100.");
+            return;
+        }
+
+        marks.push(mark);
+    }
+
+    const total = marks.reduce((sum, mark) => sum + mark, 0);
+    const percentage = (total / 600) * 100;
+
+    const status = marks.every(mark => mark >= 50)
+        ? "PASSED"
+        : "FAILED";
+
+    students.push({
+        name,
+        roll,
+        total,
+        percentage,
+        status
+    });
+
+    studentForm.reset();
+
+    displayStudents();
+    updateDashboard();
+
+});
+
+function displayStudents() {
+
+    const search = document.getElementById("searchInput")
+        .value.trim().toLowerCase();
+
+    const filter = document.getElementById("filterStatus").value;
+
+    const filtered = students.filter(student => {
+
+        const matchesSearch =
+            student.name.toLowerCase().includes(search) ||
+            student.roll.toLowerCase().includes(search);
+
+        const matchesFilter =
+            filter === "ALL" || student.status === filter;
+
+        return matchesSearch && matchesFilter;
+
+    });
+
+    resultsBody.innerHTML = "";
+
+    if (filtered.length === 0) {
+
+        resultsBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">
+                    No matching student records found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    filtered.forEach(student => {
+
+        const row = document.createElement("tr");
+
+        const nameCell = document.createElement("td");
+        nameCell.textContent = student.name;
+
+        const rollCell = document.createElement("td");
+        rollCell.textContent = student.roll;
+
+        const totalCell = document.createElement("td");
+        totalCell.textContent = student.total + " / 600";
+
+        const percentageCell = document.createElement("td");
+        percentageCell.textContent = student.percentage.toFixed(2) + "%";
+
+        const statusCell = document.createElement("td");
+
+        const badge = document.createElement("span");
+        badge.className = "status " +
+            (student.status === "PASSED" ? "pass" : "fail");
+        badge.textContent = student.status;
+
+        statusCell.appendChild(badge);
+
+        const actionCell = document.createElement("td");
+
+        const removeButton = document.createElement("button");
+        removeButton.className = "remove-btn";
+        removeButton.textContent = "Remove";
+
+        removeButton.addEventListener("click", () => {
+            removeStudent(student.roll);
+        });
+
+        actionCell.appendChild(removeButton);
+
+        row.append(
+            nameCell,
+            rollCell,
+            totalCell,
+            percentageCell,
+            statusCell,
+            actionCell
+        );
+
+        resultsBody.appendChild(row);
+
+    });
+
+}
+
+function removeStudent(roll) {
+
+    if (!confirm("Are you sure you want to remove this student?")) {
+        return;
+    }
+
+    students = students.filter(student => student.roll !== roll);
+
+    displayStudents();
+    updateDashboard();
+
+}
+
+function updateDashboard() {
+
+    const total = students.length;
+
+    const passed = students.filter(
+        student => student.status === "PASSED"
+    ).length;
+
+    const percentage = total > 0
+        ? (passed / total) * 100
+        : 0;
+
+    document.getElementById("totalStudents").textContent = total;
+
+    document.getElementById("passedStudents").textContent = passed;
+
+    document.getElementById("passPercentage").textContent =
+        percentage.toFixed(1) + "%";
+
+}
+
+document.getElementById("searchInput")
+    .addEventListener("input", displayStudents);
+
+document.getElementById("filterStatus")
+    .addEventListener("change", displayStudents);
+
+function downloadCSV() {
+
+    if (students.length === 0) {
+        alert("No student results available to export.");
+        return;
+    }
+
+    const headers = [
+        "Student Name",
+        "Roll Number",
+        "Total Marks",
+        "Percentage",
+        "Final Result"
+    ];
+
+    const rows = students.map(student => [
+        student.name,
+        student.roll,
+        student.total,
+        student.percentage.toFixed(2) + "%",
+        student.status
+    ]);
+
+    const csv = [headers, ...rows]
+        .map(row => row.map(value =>
+            '"' + String(value).replace(/"/g, '""') + '"'
+        ).join(","))
+        .join("\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "Student_Results.csv";
+    link.click();
+
+    URL.revokeObjectURL(url);
+
+}
+
+</script>
+
+</body>
+</html>
